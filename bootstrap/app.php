@@ -1,8 +1,12 @@
 <?php
 
-// Fix para conflicto entre extensión psr (PHP 8.4) y Monolog
+// Fix AGRESIVO para conflicto entre extensión psr (PHP 8.4) y Monolog
+// NOTA: Este fix también se ejecuta en public/index.php ANTES del autoloader
+// Este es un respaldo por si acaso
 if (extension_loaded('psr')) {
-    require_once __DIR__.'/psr-fix.php';
+    if (!class_exists('Psr\Log\LoggerInterface', false)) {
+        require_once __DIR__.'/psr-fix-aggressive.php';
+    }
 }
 
 use Illuminate\Foundation\Application;

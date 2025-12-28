@@ -9,9 +9,10 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
     require $maintenance;
 }
 
-// Fix para conflicto PSR antes de cargar el autoloader (PHP 8.4)
+// Fix AGRESIVO para conflicto PSR antes de cargar el autoloader (PHP 8.4)
+// DEBE ejecutarse ANTES de vendor/autoload.php
 if (extension_loaded('psr')) {
-    require __DIR__.'/../bootstrap/psr-fix.php';
+    require __DIR__.'/../bootstrap/psr-fix-aggressive.php';
 }
 
 // Register the Composer autoloader...
