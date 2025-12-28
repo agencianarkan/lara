@@ -4,24 +4,37 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Redirigir todo a /public/ excepto si ya estamos en public o si es un archivo/carpeta que existe
+    # Si la petición NO es para la carpeta public y NO es un archivo/carpeta que existe
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
-    RewriteRule ^(.*)$ public/$1 [L]
     
-    # Redirigir la raíz también
+    # Redirigir a public/ manteniendo la URI original
+    RewriteRule ^(.*)$ public/$1 [L,QSA]
+    
+    # Redirigir la raíz también a public/
+    RewriteCond %{REQUEST_URI} ^/$
     RewriteRule ^$ public/ [L]
 </IfModule>
 
 # Proteger archivos sensibles (archivos que empiezan con punto)
 <FilesMatch "^\.">
-    Order allow,deny
-    Deny from all
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
 </FilesMatch>
 
 # Proteger .env específicamente
 <Files .env>
-    Order allow,deny
-    Deny from all
+    <IfModule mod_authz_core.c>
+        Require all denied
+    </IfModule>
+    <IfModule !mod_authz_core.c>
+        Order allow,deny
+        Deny from all
+    </IfModule>
 </Files>

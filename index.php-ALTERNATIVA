@@ -1,0 +1,9 @@
+<?php
+/**
+ * ALTERNATIVA: Si el .htaccess no funciona, usa este archivo como index.php en la raíz
+ * Renombra este archivo a index.php y colócalo en la raíz (/public_html/index.php)
+ */
+
+// Redirigir todo a public/index.php
+require __DIR__ . '/public/index.php';
+
