@@ -1,5 +1,8 @@
 <?php
 
+// Fix para conflicto entre extensión psr (PHP 8.4) y Monolog
+require_once __DIR__.'/psr-fix.php';
+
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;

@@ -9,6 +9,9 @@ if (file_exists($maintenance = __DIR__.'/../storage/framework/maintenance.php'))
     require $maintenance;
 }
 
+// Fix para conflicto PSR antes de cargar el autoloader
+require __DIR__.'/../bootstrap/psr-fix.php';
+
 // Register the Composer autoloader...
 require __DIR__.'/../vendor/autoload.php';
 
