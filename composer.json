@@ -39,11 +39,13 @@
         ],
         "post-install-cmd": [
             "@php scripts/fix-monolog-psr.php",
-            "@php scripts/fix-monolog-use-statement.php"
+            "@php scripts/fix-monolog-use-statement.php",
+            "@php scripts/fix-monolog-radical.php"
         ],
         "post-update-cmd": [
             "@php scripts/fix-monolog-psr.php",
             "@php scripts/fix-monolog-use-statement.php",
+            "@php scripts/fix-monolog-radical.php",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
