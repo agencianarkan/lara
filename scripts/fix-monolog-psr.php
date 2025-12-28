@@ -28,9 +28,9 @@ echo "🔧 Corrigiendo conflicto PSR/Monolog en PHP 8.4...\n";
 // Buscar la línea que declara la clase: "class Logger implements LoggerInterface"
 // Necesitamos cambiar "implements LoggerInterface" a "implements \Psr\Log\LoggerInterface"
 
-// Patrón: busca "implements LoggerInterface" que NO esté ya con namespace completo
-$pattern = '/(implements\s+)(?<!\\\\)LoggerInterface(?!\\\\)/';
-$replacement = '$1\\Psr\\Log\\LoggerInterface // FIXED-PERMANENT: Forced Psr\\Log\\LoggerInterface for PHP 8.4';
+// Patrón más simple: busca "implements LoggerInterface" sin namespace
+$pattern = '/(implements\s+)(LoggerInterface)(\s|;|$)/';
+$replacement = '$1\\Psr\\Log\\LoggerInterface // FIXED-PERMANENT: Forced Psr\\Log\\LoggerInterface for PHP 8.4$3';
 
 $newContent = $content;
 $changes = 0;
