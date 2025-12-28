@@ -57,26 +57,47 @@ try {
     $request = Illuminate\Http\Request::create('/admin', 'GET');
     echo "✅ Request creado<br>";
     
-    // Intentar manejar el request
-    $response = $app->handleRequest($request);
-    echo "✅ Request manejado<br>";
-    echo "Status: " . $response->getStatusCode() . "<br>";
+    // Habilitar captura de errores
+    set_error_handler(function($severity, $message, $file, $line) {
+        throw new ErrorException($message, 0, $severity, $file, $line);
+    });
+    
+    // Intentar manejar el request con manejo de errores
+    try {
+        $response = $app->handleRequest($request);
+        echo "✅ Request manejado<br>";
+        echo "Status: " . $response->getStatusCode() . "<br>";
+        echo "Content Length: " . strlen($response->getContent()) . " bytes<br>";
+    } catch (\Throwable $e) {
+        restore_error_handler();
+        throw $e;
+    }
+    restore_error_handler();
     
 } catch (Error $e) {
     echo "<h3 style='color: red;'>❌ ERROR FATAL</h3>";
-    echo "<pre>";
-    echo "Mensaje: " . $e->getMessage() . "\n";
-    echo "Archivo: " . $e->getFile() . "\n";
+    echo "<pre style='background: #fee; padding: 10px; border: 2px solid red;'>";
+    echo "Mensaje: " . htmlspecialchars($e->getMessage()) . "\n";
+    echo "Archivo: " . htmlspecialchars($e->getFile()) . "\n";
     echo "Línea: " . $e->getLine() . "\n";
-    echo "\nTrace:\n" . $e->getTraceAsString();
+    echo "\nTrace completo:\n" . htmlspecialchars($e->getTraceAsString());
     echo "</pre>";
 } catch (Exception $e) {
     echo "<h3 style='color: orange;'>⚠️ EXCEPCIÓN</h3>";
-    echo "<pre>";
-    echo "Mensaje: " . $e->getMessage() . "\n";
-    echo "Archivo: " . $e->getFile() . "\n";
+    echo "<pre style='background: #ffe; padding: 10px; border: 2px solid orange;'>";
+    echo "Mensaje: " . htmlspecialchars($e->getMessage()) . "\n";
+    echo "Archivo: " . htmlspecialchars($e->getFile()) . "\n";
     echo "Línea: " . $e->getLine() . "\n";
-    echo "\nTrace:\n" . $e->getTraceAsString();
+    echo "\nTrace completo:\n" . htmlspecialchars($e->getTraceAsString());
+    echo "</pre>";
+} catch (\Throwable $e) {
+    echo "<h3 style='color: red;'>❌ ERROR THROWABLE</h3>";
+    echo "<pre style='background: #fee; padding: 10px; border: 2px solid red;'>";
+    echo "Tipo: " . get_class($e) . "\n";
+    echo "Mensaje: " . htmlspecialchars($e->getMessage()) . "\n";
+    echo "Archivo: " . htmlspecialchars($e->getFile()) . "\n";
+    echo "Línea: " . $e->getLine() . "\n";
+    echo "\nTrace completo:\n" . htmlspecialchars($e->getTraceAsString());
     echo "</pre>";
 }
 
