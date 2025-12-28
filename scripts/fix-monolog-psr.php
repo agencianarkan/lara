@@ -14,9 +14,13 @@ if (!file_exists($monologPath)) {
 // Leer el archivo
 $content = file_get_contents($monologPath);
 
-// Verificar si ya está corregido
-if (strpos($content, '// FIXED-PERMANENT: Forced Psr\\Log\\LoggerInterface') !== false) {
+// Verificar si ya está corregido (aceptar diferentes marcadores de fix)
+if (strpos($content, 'implements \\Psr\\Log\\LoggerInterface') !== false ||
+    strpos($content, 'implements \Psr\Log\LoggerInterface') !== false ||
+    strpos($content, '// FIXED') !== false ||
+    strpos($content, 'FIXED-PERMANENT') !== false) {
     // Ya está corregido, no hacer nada
+    echo "ℹ️  Monolog ya está corregido (usa namespace completo)\n";
     return;
 }
 
