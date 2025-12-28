@@ -38,13 +38,12 @@
             "@php artisan package:discover --ansi"
         ],
         "post-install-cmd": [
-            "@php scripts/fix-monolog-psr.php"
-        ],
-        "post-update-cmd": [
-            "@php scripts/fix-monolog-psr.php"
+            "@php scripts/fix-monolog-psr.php",
+            "@php scripts/fix-monolog-use-statement.php"
         ],
         "post-update-cmd": [
             "@php scripts/fix-monolog-psr.php",
+            "@php scripts/fix-monolog-use-statement.php",
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
         ],
         "post-root-package-install": [
