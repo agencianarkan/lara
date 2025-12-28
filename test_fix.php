@@ -14,8 +14,12 @@ if (extension_loaded('psr')) {
 
 // Aplicar el fix ANTES de cargar el autoloader
 echo "\n1. Aplicando fix de PSR...\n";
-require_once __DIR__ . '/bootstrap/psr-fix.php';
-echo "   ✅ Fix aplicado\n";
+if (extension_loaded('psr')) {
+    require_once __DIR__ . '/bootstrap/psr-fix.php';
+    echo "   ✅ Fix aplicado\n";
+} else {
+    echo "   ⚠️  Extensión PSR no detectada, fix no necesario\n";
+}
 
 // Intentar cargar el autoloader
 echo "\n2. Cargando autoloader de Composer...\n";
