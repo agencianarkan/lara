@@ -1,10 +1,10 @@
 # Laravel - .htaccess para la raíz del proyecto
-# Redirige todas las peticiones a la carpeta public/
+# Este archivo redirige todas las peticiones a la carpeta public/
 
 <IfModule mod_rewrite.c>
     RewriteEngine On
     
-    # Redirigir todo a /public/ excepto si ya estamos en public o si es un archivo/carpeta que existe
+    # Redirigir todo a /public/ excepto si ya estamos en public
     RewriteCond %{REQUEST_URI} !^/public/
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteCond %{REQUEST_FILENAME} !-d
@@ -14,7 +14,7 @@
     RewriteRule ^$ public/ [L]
 </IfModule>
 
-# Proteger archivos sensibles (archivos que empiezan con punto)
+# Proteger archivos sensibles
 <FilesMatch "^\.">
     Order allow,deny
     Deny from all
@@ -25,3 +25,4 @@
     Order allow,deny
     Deny from all
 </Files>
+
